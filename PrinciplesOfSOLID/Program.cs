@@ -41,7 +41,7 @@ paymentProcessor.ProcessPayment(bitcoinPayment);
 #endif
 
 // Liskov Substitution Principle (LSP)
-#if true
+#if false
 Console.WriteLine("Liskov Substitution Principle (LSP)");
 
 Console.WriteLine("--Without LSP--");
@@ -59,6 +59,26 @@ var square = new Square(7);
 var areaCalculator = new AreaCalculator();
 areaCalculator.PrintArea(rectangle);
 areaCalculator.PrintArea(square);
+#endif
+
+
+#if true
+Console.WriteLine("Interface Segregation Principle (ISP)");
+
+// Without ISP
+Console.WriteLine("--Without ISP--");
+var oldDeveloper = new WrongDeveloper();
+oldDeveloper.Work();
+oldDeveloper.WriteCode();
+//oldDeveloper.Manage();    // This method is not implemented and throws an exception so we should separate the interfaces
+
+Console.WriteLine("\n--With ISP--");
+// With ISP
+var developer = new Developer();
+developer.Work();
+developer.WriteCode();
+
+
 #endif
 
 
