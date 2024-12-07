@@ -21,7 +21,7 @@ orderService.Process();
 
 
 // Open/Closed Principle (OCP)
-#if true
+#if false
 Console.WriteLine("Open/Closed Principle (OCP)");
 
 Console.WriteLine("--Without OCP--");
@@ -40,7 +40,26 @@ paymentProcessor.ProcessPayment(payPalPayment);
 paymentProcessor.ProcessPayment(bitcoinPayment);
 #endif
 
+// Liskov Substitution Principle (LSP)
+#if true
+Console.WriteLine("Liskov Substitution Principle (LSP)");
+
+Console.WriteLine("--Without LSP--");
+
+WrongRectangle badSquare = new WrongSquare();
+badSquare.Width = 5;
+badSquare.Height = 10; // Width also becomes 10
+Console.WriteLine($"Area (incorrect): {badSquare.CalculateArea()}");
+
+
+Console.WriteLine("\n--With LSP--");
+var rectangle = new Rectangle(5, 10);
+var square = new Square(7);
+
+var areaCalculator = new AreaCalculator();
+areaCalculator.PrintArea(rectangle);
+areaCalculator.PrintArea(square);
+#endif
 
 
 Console.ReadLine();
-
