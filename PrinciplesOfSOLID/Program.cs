@@ -61,8 +61,8 @@ areaCalculator.PrintArea(rectangle);
 areaCalculator.PrintArea(square);
 #endif
 
-
-#if true
+// Interface Segregation Principle (ISP)
+#if false
 Console.WriteLine("Interface Segregation Principle (ISP)");
 
 // Without ISP
@@ -78,8 +78,27 @@ var developer = new Developer();
 developer.Work();
 developer.WriteCode();
 
-
 #endif
 
+// Dependency Inversion Principle (DIP)
+#if true
+Console.WriteLine("Dependency Inversion Principle (DIP)");
+
+Console.WriteLine("--Without DIP--");
+var oldOrderService = new WrongFunService();
+oldOrderService.ProcessOrder("wrong:)customer@example.com"); // Wiht this way we can only use EmailNotification
+
+Console.WriteLine("\n--With DIP--");
+var emailNotification = new EmailNotification();
+var smsNotification = new SmsNotification();
+
+var emailOrderService = new FunService(emailNotification);
+emailOrderService.ProcessOrder("customer@example.com"); // Uses EmailNotification
+
+var smsOrderService = new FunService(smsNotification);
+smsOrderService.ProcessOrder("123-456-7890"); // Uses SmsNotification
+
+
+#endif
 
 Console.ReadLine();
