@@ -1,4 +1,4 @@
-﻿using BestApi.Models;
+﻿using BestApi.DTOs;
 using BestApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,38 +10,34 @@ namespace BestApi.Controllers
     {
         private readonly IBookService _service;
 
-        public BooksController(IBookService service)
-        {
-            _service = service;
-        }
+        public BooksController(IBookService service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetBooks(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetBooks([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             var result = await _service.GetBooksAsync(pageNumber, pageSize);
             return Ok(result);
         }
 
+        [Route("book")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBook(int id)
         {
             var book = await _service.GetBookByIdAsync(id);
-            if (book == null) return NotFound();
-            return Ok(book);
+            return book == null ? NotFound("Book not found") : Ok(book);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook([FromBody] Book book)
+        public async Task<IActionResult> CreateBook([FromBody] CreateBookDto createBookDto)
         {
-            await _service.AddBookAsync(book);
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+            await _service.CreateBookAsync(createBookDto);
+            return Created("", createBookDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(int id, [FromBody] Book book)
+        public async Task<IActionResult> UpdateBook(int id, [FromBody] UpdateBookDto updateBookDto)
         {
-            book.Id = id;
-            await _service.UpdateBookAsync(book);
+            await _service.UpdateBookAsync(id, updateBookDto);
             return NoContent();
         }
 

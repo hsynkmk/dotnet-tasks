@@ -4,16 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BestApi.Repositories
 {
-
-
-    public class BookRepository : IBookRepository
+    public class BookRepository(ApplicationDbContext context) : IBookRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public BookRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<PaginatedResponse<Book>> GetBooksAsync(int pageNumber, int pageSize)
         {
@@ -23,19 +16,18 @@ namespace BestApi.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PaginatedResponse<Book>
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize),
-                TotalRecords = totalRecords,
-                Data = books
-            };
+            return new PaginatedResponse<Book>(
+                PageNumber: pageNumber,
+                PageSize: pageSize,
+                TotalPages: (int)Math.Ceiling((double)totalRecords / pageSize),
+                TotalRecords: totalRecords,
+                Data: books
+            );
         }
 
         public async Task<Book> GetBookByIdAsync(int id) => await _context.Books.FindAsync(id);
 
-        public async Task AddBookAsync(Book book)
+        public async Task CreateBookAsync(Book book)
         {
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
@@ -49,8 +41,7 @@ namespace BestApi.Repositories
 
         public async Task DeleteBookAsync(int id)
         {
-            var book = await GetBookByIdAsync(id);
-            if (book == null) throw new Exception("Book not found");
+            var book = await GetBookByIdAsync(id) ?? throw new Exception("Book not found");
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
         }
