@@ -1,0 +1,21 @@
+@BestApi_HostAddress = http://localhost:5208
+
+GET {{BestApi_HostAddress}}/GetBooks/
+Accept: application/json
+###
+
+GET {{BestApi_HostAddress}}/api/GetBook/1
+Accept: application/json
+###
+
+POST {{BestApi_HostAddress}}/AddBook/
+Accept: application/json
+###
+
+PUT {{BestApi_HostAddress}}/UpdateBook/
+Accept: application/json
+###
+
+DELETE {{BestApi_HostAddress}}/DeleteBook/
+Accept: application/json
+###
