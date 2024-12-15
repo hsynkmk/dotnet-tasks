@@ -50,6 +50,7 @@ namespace LibraryManagement.Web.Controllers
             {
                 _context.Books.Update(book);
                 _context.SaveChanges();
+                TempData["success"] = "Book updated successfully";
                 return RedirectToAction("Index");
             }
             return View(book);
