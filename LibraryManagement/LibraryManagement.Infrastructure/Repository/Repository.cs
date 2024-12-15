@@ -7,12 +7,12 @@ namespace LibraryManagement.Infrastructure.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
         internal DbSet<T> dbSet;
-        public Repository(ApplicationDbContext db)
+        public Repository(ApplicationDbContext context)
         {
-            _db = db;
-            dbSet = _db.Set<T>();
+            _context = context;
+            dbSet = _context.Set<T>();
         }
         public void Add(T entity)
         {
