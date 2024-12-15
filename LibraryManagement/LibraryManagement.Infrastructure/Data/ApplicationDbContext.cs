@@ -12,7 +12,7 @@ namespace LibraryManagement.Infrastructure.Data
             modelBuilder.Entity<Book>().HasData(
                 new Book
                 {
-                    Id = 1,
+                    Id = new Guid("a2a57b25-56ad-4481-9bdc-244bac2ad32b"),
                     Title = "The Great Gatsby",
                     Author = "F. Scott Fitzgerald",
                     PublicationYear = 1925,
@@ -26,7 +26,7 @@ namespace LibraryManagement.Infrastructure.Data
                 },
                 new Book
                 {
-                    Id = 2,
+                    Id = new Guid("d1b81886-68ba-4300-949b-32650f18a7f0"),
                     Title = "To Kill a Mockingbird",
                     Author = "Harper Lee",
                     PublicationYear = 1960,
@@ -40,7 +40,7 @@ namespace LibraryManagement.Infrastructure.Data
                 },
                 new Book
                 {
-                    Id = 3,
+                    Id = new Guid("eb0b3ad7-b456-4974-9b3d-b965ddc1b549"),
                     Title = "1984",
                     Author = "George Orwell",
                     PublicationYear = 1949,
@@ -54,7 +54,7 @@ namespace LibraryManagement.Infrastructure.Data
                 },
                 new Book
                 {
-                    Id = 4,
+                    Id = new Guid("2639e78c-12d7-4337-9d9f-1ac7b90d1177"),
                     Title = "Pride and Prejudice",
                     Author = "Jane Austen",
                     PublicationYear = 1813,
@@ -66,7 +66,6 @@ namespace LibraryManagement.Infrastructure.Data
                     Summary = "Pride and Prejudice is a romantic novel of manners written by Jane Austen in 1813. The novel follows the character development of Elizabeth Bennet, the dynamic protagonist of the book who learns about the repercussions of hasty judgments and comes to appreciate the difference between superficial goodness and actual goodness.",
                     AvailableCopies = 4
                 }
-                
             );
         }
     }       
