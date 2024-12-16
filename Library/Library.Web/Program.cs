@@ -1,3 +1,5 @@
+using Library.Web.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +15,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
