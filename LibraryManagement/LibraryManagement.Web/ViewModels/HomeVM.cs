@@ -1,6 +1,6 @@
 ﻿using LibraryManagement.Domain.Entities;
 
-namespace LibraryManagement.Web.Views.ViewModels
+namespace LibraryManagement.Web.ViewModels
 {
     public class HomeVM
     {

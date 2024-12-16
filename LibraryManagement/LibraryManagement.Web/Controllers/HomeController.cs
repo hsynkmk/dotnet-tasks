@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using LibraryManagement.Application.Common.Interfaces;
 using LibraryManagement.Web.Models;
-using LibraryManagement.Web.Views.ViewModels;
+using LibraryManagement.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Web.Controllers
