@@ -1,21 +1,28 @@
 using System.Diagnostics;
+using LibraryManagement.Application.Common.Interfaces;
 using LibraryManagement.Web.Models;
+using LibraryManagement.Web.Views.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM homeVM = new HomeVM
+            {
+                Books = _unitOfWork.Books.GetAll(),
+                Price = 100
+            };
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
