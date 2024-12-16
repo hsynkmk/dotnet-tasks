@@ -1,4 +1,4 @@
-﻿namespace LibraryManagement.Application.Constants
+﻿namespace LibraryManagement.Application.Common.Constants
 {
     public class Messages
     {
