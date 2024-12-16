@@ -1,12 +1,12 @@
 ﻿using LibraryManagement.Application.Common.Interfaces;
+using LibraryManagement.Application.Common.Utility;
 using LibraryManagement.Domain.Entities;
-using LibraryManagement.Infrastructure.Data;
-using LibraryManagement.Infrastructure.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LibraryManagement.Web.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,11 +21,13 @@ namespace LibraryManagement.Web.Controllers
             return View(_unitOfWork.Books.GetAll());
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         public IActionResult Create(Book book)
         {
@@ -38,6 +40,7 @@ namespace LibraryManagement.Web.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpGet("Book/Update/{id}")]
         public IActionResult Update(Guid id)
         {
@@ -50,6 +53,7 @@ namespace LibraryManagement.Web.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         public IActionResult Update(Book book)
         {
@@ -63,6 +67,7 @@ namespace LibraryManagement.Web.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpGet("Book/Delete/{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -75,6 +80,7 @@ namespace LibraryManagement.Web.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         public IActionResult Delete(Book book)
         {
