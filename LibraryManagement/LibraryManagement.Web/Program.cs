@@ -1,4 +1,6 @@
 using LibraryManagement.Application.Common.Interfaces;
+using LibraryManagement.Application.Services.Implementation;
+using LibraryManagement.Application.Services.Interface;
 using LibraryManagement.Domain.Entities;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Repository;
@@ -33,6 +35,9 @@ builder.Services.Configure<IdentityOptions>(option =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +52,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+SeedDatabase();
 
 app.MapStaticAssets();
 app.MapControllerRoute(
@@ -55,3 +61,11 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+
+
+void SeedDatabase()
+{
+    using var scope = app.Services.CreateScope();
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+    dbInitializer.Initialize();
+}

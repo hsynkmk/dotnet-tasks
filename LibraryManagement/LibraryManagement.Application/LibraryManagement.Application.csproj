@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Interface\" />
-    <Folder Include="Services\Implementation\" />
+    <Folder Include="Common\DTO\" />
   </ItemGroup>
 
 </Project>

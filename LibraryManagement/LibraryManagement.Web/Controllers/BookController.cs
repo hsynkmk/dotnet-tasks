@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Common.Interfaces;
 using LibraryManagement.Application.Common.Utility;
+using LibraryManagement.Application.Services.Interface;
 using LibraryManagement.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +10,16 @@ namespace LibraryManagement.Web.Controllers
     [Authorize]
     public class BookController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBookService _bookService;
 
-        public BookController(IUnitOfWork unitOfWork)
+        public BookController(IBookService bookService)
         {
-            _unitOfWork = unitOfWork;
+            _bookService = bookService;
         }
 
         public IActionResult Index()
         {
-            return View(_unitOfWork.Books.GetAll());
+            return View(_bookService.GetAll());
         }
 
         [Authorize(Roles = SD.Role_Admin)]
@@ -33,8 +34,7 @@ namespace LibraryManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Books.Add(book);
-                _unitOfWork.Books.Save();
+                _bookService.Create(book);
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -44,7 +44,7 @@ namespace LibraryManagement.Web.Controllers
         [HttpGet("Book/Update/{id}")]
         public IActionResult Update(Guid id)
         {
-            Book? book = _unitOfWork.Books.Get(u => u.Id == id);
+            Book? book = _bookService.GetById(id);
 
             if (book == null)
             {
@@ -59,8 +59,7 @@ namespace LibraryManagement.Web.Controllers
         {
             if (ModelState.IsValid) 
             {
-                _unitOfWork.Books.Update(book);
-                _unitOfWork.Books.Save();
+                _bookService.Update(book);
                 TempData["success"] = "Book updated successfully";
                 return RedirectToAction(nameof(Index));
             }
@@ -71,7 +70,7 @@ namespace LibraryManagement.Web.Controllers
         [HttpGet("Book/Delete/{id}")]
         public IActionResult Delete(Guid id)
         {
-            Book? book = _unitOfWork.Books.Get(u => u.Id == id);
+            Book? book = _bookService.GetById(id);
 
             if (book == null)
             {
@@ -84,14 +83,16 @@ namespace LibraryManagement.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Book book)
         {
-            Book? bookFromDb = _unitOfWork.Books.Get(u => u.Id == book.Id);
+            var deleted =_bookService.Delete(book.Id);
 
-            if (bookFromDb != null)
+            if (deleted)
             {
-                _unitOfWork.Books.Remove(bookFromDb);
-                _unitOfWork.Books.Save();
+                //TODO: add notification
                 return RedirectToAction(nameof(Index));
             }
+
+            //TODO: add error notification
+
             return View(book);
         }
     }
