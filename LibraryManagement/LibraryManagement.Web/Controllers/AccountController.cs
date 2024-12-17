@@ -67,21 +67,24 @@ namespace LibraryManagement.Web.Controllers
             return View(loginVM);
         }
 
-        public IActionResult Register()
+        public IActionResult Register(string? returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
+
             if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).Wait();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).Wait();
             }
-            
-            RegisterVM registerVM = new ()
+
+            RegisterVM registerVM = new()
             {
                 RoleList = _roleManager.Roles.Select(x => new SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Name
-                })
+                }),
+                RedirectUrl = returnUrl
             };
             return View(registerVM);
         }
@@ -89,53 +92,55 @@ namespace LibraryManagement.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
-            ApplicationUser user = new()
+            if (ModelState.IsValid)
             {
-                Email = registerVM.Email,
-                PhoneNumber = registerVM.PhoneNumber,
-                NormalizedEmail = registerVM.Email.ToUpper(),
-                EmailConfirmed = true,
-                UserName = registerVM.Email,
-            };
-
-            var result = await _userManager.CreateAsync(user, registerVM.Password);
-
-            if (result.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(registerVM.Role))
+                ApplicationUser user = new()
                 {
-                    await _userManager.AddToRoleAsync(user, registerVM.Role);
+                    Email = registerVM.Email,
+                    PhoneNumber = registerVM.PhoneNumber,
+                    NormalizedEmail = registerVM.Email.ToUpper(),
+                    EmailConfirmed = true,
+                    UserName = registerVM.Email,
+                };
+
+                var result = await _userManager.CreateAsync(user, registerVM.Password);
+
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(registerVM.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, registerVM.Role);
+                    }
+
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    else
+                    {
+                        return LocalRedirect(registerVM.RedirectUrl);
+                    }
                 }
 
-                else
+                foreach (var error in result.Errors)
                 {
-                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    ModelState.AddModelError("", error.Description);
                 }
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+                registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem
                 {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                else
-                {
-                    return LocalRedirect(registerVM.RedirectUrl);
-                }
+                    Text = x.Name,
+                    Value = x.Name
+                });
             }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Name
-            });
-
             return View(registerVM);
         }
 

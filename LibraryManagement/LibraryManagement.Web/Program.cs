@@ -16,6 +16,22 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.AccessDeniedPath = "/Account/AccessDenied";
+    option.LoginPath = "/Account/Login";
+});
+
+builder.Services.Configure<IdentityOptions>(option =>
+{
+    option.Password.RequireDigit = true;
+    option.Password.RequireLowercase = true;
+    option.Password.RequireUppercase = true;
+    option.Password.RequiredLength = 6;
+    option.Lockout.MaxFailedAccessAttempts = 3;
+    option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+});
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
