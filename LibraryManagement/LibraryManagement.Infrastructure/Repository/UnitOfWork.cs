@@ -7,11 +7,13 @@ namespace LibraryManagement.Infrastructure.Repository
     {
         private readonly ApplicationDbContext _context;
         public IBookRepository Books { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             Books = new BookRepository(_context);
+            ApplicationUser = new ApplicationUserRepository(_context);
         }
     }
 }
