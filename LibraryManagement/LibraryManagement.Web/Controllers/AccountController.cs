@@ -125,6 +125,11 @@ namespace LibraryManagement.Web.Controllers
                         await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     }
 
+                    if (User.IsInRole(SD.Role_Admin))
+                    {
+                        return RedirectToAction("User", "Index");
+                    }
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     if (string.IsNullOrEmpty(registerVM.RedirectUrl))
