@@ -4,7 +4,9 @@
 A .NET 9 MVC application following the Clean Architecture approach for managing books, users, and roles in a library system. It includes user authentication, book management, and role-based access control.
 
 <hr>
+
 # Project Structure
+
 <pre>
 LibraryManagement/
 │
