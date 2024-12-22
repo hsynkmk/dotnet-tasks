@@ -1,4 +1,5 @@
 ﻿using App.Application.Interfaces;
+using App.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.API.Controllers;
@@ -17,27 +18,42 @@ public class CoursesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        return Ok(await _courseService.GetAll());
+        var courses = await _courseService.GetAllAsync();
+        return Ok(courses);
     }
 
     [HttpGet("{id}")]
-    public string Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
-        return "value";
+        var course = await _courseService.GetByIdAsync(id);
+        if (course == null) return NotFound();
+        return Ok(course);
     }
 
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] Course course)
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        await _courseService.CreateAsync(course);
+        return CreatedAtAction(nameof(Get), new { id = course.Id }, course);
     }
 
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public async Task<IActionResult> Put(int id, [FromBody] Course course)
     {
+        if (id != course.Id) return BadRequest();
+
+        await _courseService.UpdateAsync(course);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
+        var success = await _courseService.DeleteAsync(id);
+        if (!success) return NotFound();
+        return NoContent();
     }
 }
+

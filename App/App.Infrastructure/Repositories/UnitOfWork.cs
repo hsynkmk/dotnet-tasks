@@ -13,4 +13,9 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         Courses = new CourseRepository(_context);
     }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

@@ -4,9 +4,9 @@ namespace App.Application.Interfaces;
 
 public interface ICourseService
 {
-    Task<IEnumerable<Course>> GetAll();
-    Course GetById(int id);
-    void Create(Course course);
-    void Update(Course course);
-    bool Delete(int id);
+    Task<IEnumerable<Course>> GetAllAsync();
+    Task<Course?> GetByIdAsync(int id);
+    Task CreateAsync(Course course);
+    Task UpdateAsync(Course course);
+    Task<bool> DeleteAsync(int id);
 }

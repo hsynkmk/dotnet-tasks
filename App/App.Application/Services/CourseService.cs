@@ -3,48 +3,44 @@ using App.Domain.Entities;
 
 namespace App.Application.Services;
 
-internal class CourseService(IUnitOfWork unitOfWork) : ICourseService
+internal class CourseService : ICourseService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public async Task<IEnumerable<Course>> GetAll()
+    public CourseService(IUnitOfWork unitOfWork)
     {
-        return await _unitOfWork.Courses.GetAll();
+        _unitOfWork = unitOfWork;
     }
 
-    public Course GetById(int id)
+    public async Task<IEnumerable<Course>> GetAllAsync()
     {
-        return _unitOfWork.Courses.Get(u => u.Id == id);
+        return await _unitOfWork.Courses.GetAllAsync();
     }
 
-    public void Create(Course course)
+    public async Task<Course?> GetByIdAsync(int id)
     {
-        _unitOfWork.Courses.Add(course);
-        _unitOfWork.Courses.Save();
+        return await _unitOfWork.Courses.GetAsync(c => c.Id == id);
     }
 
-    public bool Delete(int id)
+    public async Task CreateAsync(Course course)
     {
-        try
-        {
-            Course? courseFromDb = _unitOfWork.Courses.Get(u => u.Id == id);
-
-            if (courseFromDb != null)
-            {
-                _unitOfWork.Courses.Remove(courseFromDb);
-                _unitOfWork.Courses.Save();
-            }
-            return true;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
+        await _unitOfWork.Courses.AddAsync(course);
+        await _unitOfWork.SaveAsync();
     }
 
-    public void Update(Course course)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var course = await _unitOfWork.Courses.GetAsync(c => c.Id == id);
+        if (course == null) return false;
+
+        _unitOfWork.Courses.Remove(course);
+        await _unitOfWork.SaveAsync();
+        return true;
+    }
+
+    public async Task UpdateAsync(Course course)
     {
         _unitOfWork.Courses.Update(course);
-        _unitOfWork.Courses.Save();
+        await _unitOfWork.SaveAsync();
     }
 }

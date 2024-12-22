@@ -1,5 +1,4 @@
 ﻿using App.Application.Interfaces;
-using App.Domain.Entities;
 using App.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -10,60 +9,61 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     private readonly AppDbContext _context;
     internal DbSet<T> dbSet;
+
     public BaseRepository(AppDbContext context)
     {
         _context = context;
         dbSet = _context.Set<T>();
     }
-    public void Add(T entity)
+
+    public async Task AddAsync(T entity)
     {
-        dbSet.Add(entity);
+        await dbSet.AddAsync(entity);
     }
 
-    public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+    public async Task<T?> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null)
     {
         IQueryable<T> query = dbSet;
+
         if (filter != null)
         {
             query = query.Where(filter);
         }
+
         if (!string.IsNullOrEmpty(includeProperties))
         {
-            foreach (var includeProp in includeProperties
-                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var includeProp in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProp);
             }
         }
-        return query.FirstOrDefault();
+
+        return await query.FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
     {
         IQueryable<T> query = dbSet;
+
         if (filter != null)
         {
             query = query.Where(filter);
         }
+
         if (!string.IsNullOrEmpty(includeProperties))
         {
-            foreach (var includeProp in includeProperties
-                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var includeProp in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProp);
             }
         }
-        return query.ToList();
+
+        return await query.ToListAsync();
     }
 
     public void Remove(T entity)
     {
         dbSet.Remove(entity);
-    }
-
-    public void Save()
-    {
-        _context.SaveChanges();
     }
 
     public void Update(T entity)
