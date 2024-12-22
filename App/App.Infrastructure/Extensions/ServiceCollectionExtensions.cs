@@ -1,4 +1,5 @@
 ﻿using App.Infrastructure.Persistence;
+using App.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,5 +12,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+        services.AddScoped<ICourseSeeder, CourseSeeder>();
     }
 }

@@ -1,1 +1,2 @@
-# dotnet-tasks
+Clean architecture
+Fluent Validation

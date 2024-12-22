@@ -1,43 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace App.API.Controllers;
 
-namespace App.API.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class CoursesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CoursesController : ControllerBase
+    // GET: api/<CoursesController>
+    [HttpGet]
+    public IActionResult Get()
     {
-        // GET: api/<CoursesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        var 
 
-        // GET api/<CoursesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+    }
 
-        // POST api/<CoursesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    // GET api/<CoursesController>/5
+    [HttpGet("{id}")]
+    public string Get(int id)
+    {
+        return "value";
+    }
 
-        // PUT api/<CoursesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+    // POST api/<CoursesController>
+    [HttpPost]
+    public void Post([FromBody] string value)
+    {
+    }
 
-        // DELETE api/<CoursesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+    // PUT api/<CoursesController>/5
+    [HttpPut("{id}")]
+    public void Put(int id, [FromBody] string value)
+    {
+    }
+
+    // DELETE api/<CoursesController>/5
+    [HttpDelete("{id}")]
+    public void Delete(int id)
+    {
     }
 }

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.UnitOfWork
+namespace App.Infrastructure.UnitOfWork;
+
+internal class UnitOfWork
 {
-    internal class UnitOfWork
-    {
-    }
 }

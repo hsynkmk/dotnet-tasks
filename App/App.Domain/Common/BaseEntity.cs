@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Common
+namespace App.Domain.Common;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-    }
 }

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Application.Interfaces
+namespace App.Application.Interfaces;
+
+internal interface IUserRepository
 {
-    internal interface IUserRepository
-    {
-    }
 }

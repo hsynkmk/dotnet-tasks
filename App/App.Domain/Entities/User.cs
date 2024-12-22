@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Entities
+namespace App.Domain.Entities;
+
+internal class User
 {
-    internal class User
-    {
-    }
 }

@@ -1,6 +1,5 @@
-using App.Infrastructure.Persistence;
 using App.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
+using App.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -22,6 +23,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Seed database
+var scope = app.Services.CreateScope();
+var seeder = scope.ServiceProvider.GetRequiredService<ICourseSeeder>();
+await seeder.Seed();
 
 app.UseHttpsRedirection();
 

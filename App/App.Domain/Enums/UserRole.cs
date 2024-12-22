@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Enums
+namespace App.Domain.Enums;
+
+internal class UserRole
 {
-    internal class UserRole
-    {
-    }
 }

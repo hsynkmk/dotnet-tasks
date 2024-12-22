@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.Repositories
+namespace App.Infrastructure.Repositories;
+
+internal class OrderRepository
 {
-    internal class OrderRepository
-    {
-    }
 }
