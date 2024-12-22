@@ -6,7 +6,7 @@ public interface ICourseService
 {
     IEnumerable<Course> GetAll();
     Course GetById(int id);
-    void Create(Course book);
-    void Update(Course book);
+    void Create(Course course);
+    void Update(Course course);
     bool Delete(int id);
 }

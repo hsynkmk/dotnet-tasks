@@ -7,9 +7,9 @@ public class CourseService(IUnitOfWork unitOfWork) : ICourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public void Create(Course book)
+    public void Create(Course course)
     {
-        _unitOfWork.Courses.Add(book);
+        _unitOfWork.Courses.Add(course);
         _unitOfWork.Courses.Save();
     }
 
@@ -17,11 +17,11 @@ public class CourseService(IUnitOfWork unitOfWork) : ICourseService
     {
         try
         {
-            Course? bookFromDb = _unitOfWork.Courses.Get(u => u.Id == id);
+            Course? courseFromDb = _unitOfWork.Courses.Get(u => u.Id == id);
 
-            if (bookFromDb != null)
+            if (courseFromDb != null)
             {
-                _unitOfWork.Courses.Remove(bookFromDb);
+                _unitOfWork.Courses.Remove(courseFromDb);
                 _unitOfWork.Courses.Save();
             }
             return true;
@@ -42,9 +42,9 @@ public class CourseService(IUnitOfWork unitOfWork) : ICourseService
         return _unitOfWork.Courses.Get(u => u.Id == id);
     }
 
-    public void Update(Course book)
+    public void Update(Course course)
     {
-        _unitOfWork.Courses.Update(book);
+        _unitOfWork.Courses.Update(course);
         _unitOfWork.Courses.Save();
     }
 }

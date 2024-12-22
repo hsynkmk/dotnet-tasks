@@ -1,4 +1,5 @@
 ﻿using App.Application.Interfaces;
+using App.Domain.Entities;
 using App.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -58,5 +59,15 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     public void Remove(T entity)
     {
         dbSet.Remove(entity);
+    }
+
+    public void Save()
+    {
+        _context.SaveChanges();
+    }
+
+    public void Update(T entity)
+    {
+        dbSet.Update(entity);
     }
 }

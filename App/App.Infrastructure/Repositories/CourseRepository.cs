@@ -10,14 +10,4 @@ internal class CourseRepository : BaseRepository<Course>, ICourseRepository
     {
         _context = context;
     }
-
-    public void Save()
-    {
-        _context.SaveChanges();
-    }
-
-    public void Update(Course entity)
-    {
-        _context.Courses.Update(entity);
-    }
 }
