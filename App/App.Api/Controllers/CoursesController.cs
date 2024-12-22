@@ -1,6 +1,5 @@
 ﻿using App.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace App.API.Controllers;
 
@@ -15,33 +14,28 @@ public class CoursesController : ControllerBase
         _courseService = courseService;
     }
 
-    // GET: api/<CoursesController>
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        return Ok(_courseService.GetAll());
+        return Ok(await _courseService.GetAll());
     }
 
-    // GET api/<CoursesController>/5
     [HttpGet("{id}")]
     public string Get(int id)
     {
         return "value";
     }
 
-    // POST api/<CoursesController>
     [HttpPost]
     public void Post([FromBody] string value)
     {
     }
 
-    // PUT api/<CoursesController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)
     {
     }
 
-    // DELETE api/<CoursesController>/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {

@@ -1,8 +1,7 @@
 ﻿using App.Application.Interfaces;
 using App.Infrastructure.Persistence;
-using App.Infrastructure.Repositories;
 
-namespace App.Infrastructure.UnitOfWork;
+namespace App.Infrastructure.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {

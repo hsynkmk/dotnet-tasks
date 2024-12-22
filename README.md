@@ -1,2 +1,5 @@
-Clean architecture
-Fluent Validation
+## Clean architecture
+
+## Fluent Validation
+
+## internal classes public interfaces

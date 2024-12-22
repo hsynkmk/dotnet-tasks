@@ -1,5 +1,7 @@
-﻿using App.Infrastructure.Persistence;
+﻿using App.Application.Interfaces;
+using App.Infrastructure.Persistence;
 using App.Infrastructure.Seeders;
+using App.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,5 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
         services.AddScoped<ICourseSeeder, CourseSeeder>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

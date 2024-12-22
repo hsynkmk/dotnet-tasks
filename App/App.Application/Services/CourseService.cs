@@ -3,9 +3,19 @@ using App.Domain.Entities;
 
 namespace App.Application.Services;
 
-public class CourseService(IUnitOfWork unitOfWork) : ICourseService
+internal class CourseService(IUnitOfWork unitOfWork) : ICourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
+    public async Task<IEnumerable<Course>> GetAll()
+    {
+        return await _unitOfWork.Courses.GetAll();
+    }
+
+    public Course GetById(int id)
+    {
+        return _unitOfWork.Courses.Get(u => u.Id == id);
+    }
 
     public void Create(Course course)
     {
@@ -30,16 +40,6 @@ public class CourseService(IUnitOfWork unitOfWork) : ICourseService
         {
             return false;
         }
-    }
-
-    public IEnumerable<Course> GetAll()
-    {
-        return _unitOfWork.Courses.GetAll();
-    }
-
-    public Course GetById(int id)
-    {
-        return _unitOfWork.Courses.Get(u => u.Id == id);
     }
 
     public void Update(Course course)
