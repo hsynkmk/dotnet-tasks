@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using App.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace App.API.Controllers;
 
@@ -6,12 +8,18 @@ namespace App.API.Controllers;
 [ApiController]
 public class CoursesController : ControllerBase
 {
+    private readonly ICourseService _courseService;
+
+    public CoursesController(ICourseService courseService)
+    {
+        _courseService = courseService;
+    }
+
     // GET: api/<CoursesController>
     [HttpGet]
     public IActionResult Get()
     {
-        var 
-
+        return Ok(_courseService.GetAll());
     }
 
     // GET api/<CoursesController>/5

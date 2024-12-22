@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace App.Application.Interfaces;
 
-namespace App.Application.Interfaces;
-
-internal class IUnitOfWork
+public interface IUnitOfWork
 {
+    ICourseRepository Courses { get; }
 }

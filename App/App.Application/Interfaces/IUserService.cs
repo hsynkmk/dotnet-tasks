@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace App.Application.Interfaces;
 
-internal class IUserService
+public interface IUserService
 {
 }

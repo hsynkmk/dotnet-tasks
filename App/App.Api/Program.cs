@@ -1,5 +1,8 @@
+using App.Application.Interfaces;
+using App.Application.Services;
 using App.Infrastructure.Extensions;
 using App.Infrastructure.Seeders;
+using App.Infrastructure.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,8 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 var app = builder.Build();
 

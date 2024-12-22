@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Domain.Entities;
 
 namespace App.Application.Interfaces;
 
-internal interface ICourseRepository
+public interface ICourseRepository : IBaseRepository<Course>
 {
+    void Update(Course entity);
+    void Save();
 }

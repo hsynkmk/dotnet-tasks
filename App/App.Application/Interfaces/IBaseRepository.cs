@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace App.Application.Interfaces;
 
-public interface Icourseseeder<T> where T : class
+public interface IBaseRepository<T> where T : class
 {
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<T> GetByIdAsync(int id);
-    Task AddAsync(T entity);
-    void Update(T entity);
-    void Delete(T entity);
-    Task<bool> ExistsAsync(int id);
+    IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
+    T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
+    void Add(T entity);
+    void Remove(T entity);
 }

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace App.Application.Interfaces;
 
-internal interface IOrderRepository
+public interface IOrderRepository
 {
 }
