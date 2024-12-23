@@ -1,7 +1,9 @@
 ﻿using App.Application.DTOs;
 using App.Application.Interfaces;
 using App.Domain.Entities;
+using App.Domain.Exceptions;
 using AutoMapper;
+using App.Domain.Common;
 
 namespace App.Application.Services;
 
@@ -13,12 +15,18 @@ internal class CourseService(IUnitOfWork unitOfWork, IMapper mapper) : ICourseSe
     public async Task<IEnumerable<CourseDto>> GetAllAsync()
     {
         var courses = await _unitOfWork.Courses.GetAllAsync();
+
+        if (courses == null) throw new NotFoundException(Constans.Course, "all");
+
         return _mapper.Map<IEnumerable<CourseDto>>(courses);
     }
 
     public async Task<CourseDto?> GetByIdAsync(int id)
     {
         var course = await _unitOfWork.Courses.GetAsync(c => c.Id == id);
+        
+        if (course == null) throw new NotFoundException(Constans.Course, id);
+        
         return _mapper.Map<CourseDto?>(course);
     }
 
@@ -32,7 +40,8 @@ internal class CourseService(IUnitOfWork unitOfWork, IMapper mapper) : ICourseSe
     public async Task<bool> DeleteAsync(int id)
     {
         var course = await _unitOfWork.Courses.GetAsync(c => c.Id == id);
-        if (course == null) return false;
+        
+        if (course == null) throw new NotFoundException(Constans.Course, id);
 
         _unitOfWork.Courses.Remove(course);
         await _unitOfWork.SaveAsync();
@@ -41,7 +50,11 @@ internal class CourseService(IUnitOfWork unitOfWork, IMapper mapper) : ICourseSe
 
     public async Task UpdateAsync(CourseDto courseDto)
     {
-        var course = _mapper.Map<Course>(courseDto);
+        var course = await _unitOfWork.Courses.GetAsync(c => c.Id == courseDto.Id);
+        if (course == null) throw new NotFoundException(Constans.Course, courseDto.Name);
+
+        course = _mapper.Map<Course>(courseDto);
+
         _unitOfWork.Courses.Update(course);
         await _unitOfWork.SaveAsync();
     }

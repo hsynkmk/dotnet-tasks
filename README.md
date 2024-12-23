@@ -1,9 +1,19 @@
 ## Clean architecture
 
-## Fluent Validation
+## Repository Pattern
+
+## UnitOfWork
 
 ## internal classes public interfaces
 
+## AutoMapper
+
+## Fluent Validation
+
 ## DTO
 
-## AutoMapper
+## Exception Handling middleware
+
+##
+
+##

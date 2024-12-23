@@ -21,7 +21,6 @@ public class CoursesController(ICourseService courseService) : ControllerBase
     public async Task<IActionResult> Get(int id)
     {
         var course = await _courseService.GetByIdAsync(id);
-        if (course == null) return NotFound();
         return Ok(course);
     }
 
@@ -46,8 +45,7 @@ public class CoursesController(ICourseService courseService) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var success = await _courseService.DeleteAsync(id);
-        if (!success) return NotFound();
+        await _courseService.DeleteAsync(id);
         return NoContent();
     }
 }
