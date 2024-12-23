@@ -1,5 +1,5 @@
-﻿using App.Application.Interfaces;
-using App.Domain.Entities;
+﻿using App.Application.DTOs;
+using App.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.API.Controllers;
@@ -26,20 +26,20 @@ public class CoursesController(ICourseService courseService) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Course course)
+    public async Task<IActionResult> Post([FromBody] CourseDto courseDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        await _courseService.CreateAsync(course);
-        return CreatedAtAction(nameof(Get), new { id = course.Id }, course);
+        await _courseService.CreateAsync(courseDto);
+        return CreatedAtAction(nameof(Get), courseDto);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] Course course)
+    public async Task<IActionResult> Put(int id, [FromBody] CourseDto courseDto)
     {
-        if (id != course.Id) return BadRequest();
+        if (id != courseDto.Id) return BadRequest();
 
-        await _courseService.UpdateAsync(course);
+        await _courseService.UpdateAsync(courseDto);
         return NoContent();
     }
 
