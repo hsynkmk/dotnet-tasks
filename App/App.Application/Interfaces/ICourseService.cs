@@ -1,12 +1,13 @@
-﻿using App.Domain.Entities;
+﻿using App.Application.DTOs;
+using App.Domain.Entities;
 
 namespace App.Application.Interfaces;
 
 public interface ICourseService
 {
-    Task<IEnumerable<Course>> GetAllAsync();
-    Task<Course?> GetByIdAsync(int id);
-    Task CreateAsync(Course course);
-    Task UpdateAsync(Course course);
+    Task<IEnumerable<CourseDto>> GetAllAsync();
+    Task<CourseDto?> GetByIdAsync(int id);
+    Task CreateAsync(CourseDto courseDto);
+    Task UpdateAsync(CourseDto courseDto);
     Task<bool> DeleteAsync(int id);
 }

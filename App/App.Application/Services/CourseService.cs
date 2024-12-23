@@ -1,29 +1,30 @@
-﻿using App.Application.Interfaces;
+﻿using App.Application.DTOs;
+using App.Application.Interfaces;
 using App.Domain.Entities;
+using AutoMapper;
 
 namespace App.Application.Services;
 
-internal class CourseService : ICourseService
+internal class CourseService(IUnitOfWork unitOfWork, IMapper mapper) : ICourseService
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
-    public CourseService(IUnitOfWork unitOfWork)
+    public async Task<IEnumerable<CourseDto>> GetAllAsync()
     {
-        _unitOfWork = unitOfWork;
+        var courses = await _unitOfWork.Courses.GetAllAsync();
+        return _mapper.Map<IEnumerable<CourseDto>>(courses);
     }
 
-    public async Task<IEnumerable<Course>> GetAllAsync()
+    public async Task<CourseDto?> GetByIdAsync(int id)
     {
-        return await _unitOfWork.Courses.GetAllAsync();
+        var course = await _unitOfWork.Courses.GetAsync(c => c.Id == id);
+        return _mapper.Map<CourseDto?>(course);
     }
 
-    public async Task<Course?> GetByIdAsync(int id)
+    public async Task CreateAsync(CourseDto courseDto)
     {
-        return await _unitOfWork.Courses.GetAsync(c => c.Id == id);
-    }
-
-    public async Task CreateAsync(Course course)
-    {
+        var course = _mapper.Map<Course>(courseDto);
         await _unitOfWork.Courses.AddAsync(course);
         await _unitOfWork.SaveAsync();
     }
@@ -38,8 +39,9 @@ internal class CourseService : ICourseService
         return true;
     }
 
-    public async Task UpdateAsync(Course course)
+    public async Task UpdateAsync(CourseDto courseDto)
     {
+        var course = _mapper.Map<Course>(courseDto);
         _unitOfWork.Courses.Update(course);
         await _unitOfWork.SaveAsync();
     }

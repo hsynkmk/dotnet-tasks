@@ -4,11 +4,6 @@ using App.Infrastructure.Persistence;
 
 namespace App.Infrastructure.Repositories;
 
-internal class CourseRepository : BaseRepository<Course>, ICourseRepository
+internal class CourseRepository(AppDbContext context) : BaseRepository<Course>(context), ICourseRepository
 {
-    private readonly AppDbContext _context;
-    public CourseRepository(AppDbContext context) : base(context)
-    {
-        _context = context;
-    }
 }
